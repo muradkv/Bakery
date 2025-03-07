@@ -11,11 +11,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    let delegateOwner = DelegateOwner()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        
+        let viewController = BakeryViewController()
+        viewController.delegate = delegateOwner
+        
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
 }
