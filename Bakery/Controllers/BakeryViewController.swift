@@ -8,16 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol BakeryDelegate: AnyObject {
-    func didFinishBaking(_ product: BakedGood)
-}
-
-final class DelegateOwner: BakeryDelegate {
-    func didFinishBaking(_ product: BakedGood) {
-        print(product.name, "Уведомил делегат, что готов!")
-    }
-}
-
 final class BakeryViewController: UIViewController {
     
     //MARK: - Properties
@@ -66,13 +56,14 @@ final class BakeryViewController: UIViewController {
     }()
     
     private var currentProduct: BakedGood?
-    
-    weak var delegate: BakeryDelegate?
- 
+    private var bakeryManager = BakeryManager()
+    private let delegateOwner = DelegateOwner()
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupView()
+        bakeryManager.delegate = delegateOwner
     }
     
     private func setupView() {
@@ -130,12 +121,8 @@ final class BakeryViewController: UIViewController {
             return
         }
         
-        //Вызываем метод baker() и получаем результат
-        let result = product.bake()
+        let result = bakeryManager.bakeProduct(product)
         showAlert(title: "Выпечка", message: result)
-        
-        //Если делегат установлен, уведомляем его
-        delegate?.didFinishBaking(product)
     }
     
     private func showAlert(title: String, message: String) {
