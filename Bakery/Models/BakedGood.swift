@@ -1,9 +1,11 @@
 //
-//  Protocols.swift
+//  BakedGood.swift
 //  Bakery
 //
-//  Created by murad on 05.03.2025.
+//  Created by murad on 10.03.2025.
 //
+
+import Foundation
 
 protocol BakedGood {
     var name: String { get }
